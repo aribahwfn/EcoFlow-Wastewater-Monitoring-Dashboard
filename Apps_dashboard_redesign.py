@@ -81,17 +81,17 @@ st.markdown(
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     :root {
-        --neon-bg: #1a1b26;
-        --neon-panel: #24283b;
-        --neon-panel-alt: #292e42;
-        --neon-border: #414868;
-        --neon-cyan: #7dcfff;
-        --neon-blue: #7aa2f7;
-        --neon-purple: #bb9af7;
-        --neon-pink: #f7768e;
-        --neon-green: #9ece6a;
-        --neon-text: #c0caf5;
-        --neon-muted: #a9b1d6;
+        --theme-bg: #211A2C;
+        --theme-panel: #30243B;
+        --theme-panel-alt: #3B2A45;
+        --theme-border: #65485D;
+        --theme-sakura: #F6A6C1;
+        --theme-sunset: #FFB86B;
+        --theme-lilac: #C5A3E8;
+        --theme-coral: #F28C7B;
+        --theme-mint: #A8D5BA;
+        --theme-text: #FFF0E8;
+        --theme-muted: #D8C0D0;
     }
 
     html, body, [class*="css"] {
@@ -101,8 +101,8 @@ st.markdown(
     .stApp,
     [data-testid="stAppViewContainer"],
     [data-testid="stAppViewContainer"] > .main {
-        background: var(--neon-bg);
-        color: var(--neon-text);
+        background: var(--theme-bg);
+        color: var(--theme-text);
     }
 
     [data-testid="stHeader"] {
@@ -110,13 +110,33 @@ st.markdown(
     }
 
     [data-testid="stSidebar"] {
-        background: #16161e;
-        border-right: 1px solid var(--neon-border);
+        background: #191321;
+        border-right: 1px solid var(--theme-border);
     }
 
     [data-testid="stSidebar"] * {
-        color: var(--neon-text);
+        color: var(--theme-text);
     }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] > label {
+        color: var(--theme-sakura); font-size: .72rem; font-weight: 700;
+        letter-spacing: .12em; text-transform: uppercase; margin-bottom: .65rem;
+    }
+    [data-testid="stSidebar"] [role="radiogroup"] { gap: .42rem; }
+    [data-testid="stSidebar"] [role="radiogroup"] label {
+        background: #271D32; border: 1px solid #4B354D; border-radius: 11px;
+        padding: .62rem .75rem; margin: 0;
+        transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+    [data-testid="stSidebar"] [role="radiogroup"] label:hover {
+        background: #30243B; border-color: var(--theme-sunset); transform: translateX(2px);
+    }
+    [data-testid="stSidebar"] [role="radiogroup"] label:has(input:checked) {
+        background: linear-gradient(100deg, rgba(246,166,193,.20), rgba(255,184,107,.14));
+        border-color: var(--theme-sakura);
+        box-shadow: inset 3px 0 0 var(--theme-sakura), 0 0 13px rgba(246,166,193,.10);
+    }
+    [data-testid="stSidebar"] [role="radiogroup"] label p { font-weight: 600; font-size: .88rem; }
 
     .block-container {
         width: 100%;
@@ -127,18 +147,18 @@ st.markdown(
     .top-header {
         width: 100%;
         box-sizing: border-box;
-        background: linear-gradient(115deg, #24283b 0%, #302747 100%);
-        border: 1px solid var(--neon-border);
-        border-left: 4px solid var(--neon-cyan);
+        background: linear-gradient(115deg, #30243B 0%, #493047 100%);
+        border: 1px solid var(--theme-border);
+        border-left: 4px solid var(--theme-sakura);
         border-radius: 16px;
         padding: 22px 26px;
         margin: 0 0 18px 0;
         overflow-wrap: anywhere;
-        box-shadow: 0 0 22px rgba(125, 207, 255, 0.08);
+        box-shadow: 0 0 22px rgba(246, 166, 193, 0.10);
     }
 
     .eyebrow {
-        color: var(--neon-cyan);
+        color: var(--theme-sakura);
         font-size: .76rem;
         font-weight: 700;
         letter-spacing: .09em;
@@ -149,12 +169,12 @@ st.markdown(
         font-size: clamp(1.35rem, 2.2vw, 2rem);
         line-height: 1.3;
         font-weight: 700;
-        color: #e0e7ff;
+        color: #FFF5EF;
         margin: 4px 0 0 0;
     }
 
     .sub-title {
-        color: var(--neon-muted);
+        color: var(--theme-muted);
         font-size: .94rem;
         margin-top: 7px;
     }
@@ -164,9 +184,9 @@ st.markdown(
         height: 100%;
         min-height: 132px;
         box-sizing: border-box;
-        background: var(--neon-panel);
-        border: 1px solid var(--neon-border);
-        border-top: 4px solid var(--neon-cyan);
+        background: var(--theme-panel);
+        border: 1px solid var(--theme-border);
+        border-top: 4px solid var(--theme-sakura);
         border-radius: 14px;
         padding: 18px;
         box-shadow: 0 4px 18px rgba(0, 0, 0, .18);
@@ -174,7 +194,7 @@ st.markdown(
     }
 
     .metric-label {
-        color: var(--neon-muted);
+        color: var(--theme-muted);
         font-size: .76rem;
         font-weight: 700;
         letter-spacing: .035em;
@@ -182,14 +202,14 @@ st.markdown(
     }
 
     .metric-value {
-        color: var(--neon-cyan);
+        color: var(--theme-sakura);
         font-size: clamp(1.3rem, 1.8vw, 1.8rem);
         line-height: 1.2;
         font-weight: 700;
     }
 
     .metric-note {
-        color: var(--neon-muted);
+        color: var(--theme-muted);
         font-size: .76rem;
         line-height: 1.45;
         margin-top: 9px;
@@ -198,8 +218,8 @@ st.markdown(
     .section-card {
         width: 100%;
         box-sizing: border-box;
-        background: var(--neon-panel);
-        border: 1px solid var(--neon-border);
+        background: var(--theme-panel);
+        border: 1px solid var(--theme-border);
         border-radius: 14px;
         padding: 16px;
         margin-bottom: 14px;
@@ -207,22 +227,22 @@ st.markdown(
     }
 
     .section-heading {
-        color: #e0e7ff;
+        color: #FFF5EF;
         font-size: 1rem;
         font-weight: 700;
         margin-bottom: 3px;
     }
 
     .section-caption {
-        color: var(--neon-muted);
+        color: var(--theme-muted);
         font-size: .78rem;
         margin-bottom: 10px;
     }
 
     div[data-testid="stMetric"] {
-        background: var(--neon-panel);
-        border: 1px solid var(--neon-border);
-        border-top: 3px solid var(--neon-purple);
+        background: var(--theme-panel);
+        border: 1px solid var(--theme-border);
+        border-top: 3px solid var(--theme-lilac);
         padding: 14px 16px;
         border-radius: 12px;
     }
@@ -230,7 +250,7 @@ st.markdown(
     div[data-testid="stMetric"] label,
     div[data-testid="stMetric"] [data-testid="stMetricValue"],
     div[data-testid="stMetric"] [data-testid="stMetricDelta"] {
-        color: var(--neon-text);
+        color: var(--theme-text);
     }
 
     div[data-testid="stAlert"] {
@@ -240,41 +260,41 @@ st.markdown(
     div[data-baseweb="select"] > div,
     div[data-baseweb="input"] > div,
     div[data-baseweb="textarea"] > div {
-        background: var(--neon-panel-alt);
-        border-color: var(--neon-border);
-        color: var(--neon-text);
+        background: var(--theme-panel-alt);
+        border-color: var(--theme-border);
+        color: var(--theme-text);
     }
 
     input, textarea {
-        color: var(--neon-text) !important;
+        color: var(--theme-text) !important;
     }
 
     .stButton button, .stDownloadButton button {
         border-radius: 9px;
-        border: 1px solid var(--neon-blue);
-        background: #292e42;
-        color: #e0e7ff;
+        border: 1px solid var(--theme-sunset);
+        background: #3B2A45;
+        color: #FFF5EF;
         transition: all .2s ease;
     }
 
     .stButton button:hover, .stDownloadButton button:hover {
-        border-color: var(--neon-cyan);
-        color: var(--neon-cyan);
-        box-shadow: 0 0 12px rgba(125, 207, 255, .18);
+        border-color: var(--theme-sakura);
+        color: var(--theme-sakura);
+        box-shadow: 0 0 12px rgba(255, 184, 107, .18);
     }
 
     [data-testid="stDataFrame"], [data-testid="stTable"] {
-        border: 1px solid var(--neon-border);
+        border: 1px solid var(--theme-border);
         border-radius: 10px;
         overflow: hidden;
     }
 
     hr {
-        border-color: var(--neon-border);
+        border-color: var(--theme-border);
     }
 
     p, label, li, .stMarkdown, [data-testid="stCaptionContainer"] {
-        color: var(--neon-text);
+        color: var(--theme-text);
     }
 
     @media (max-width: 768px) {
@@ -376,9 +396,9 @@ def style_chart(fig, height=300):
 
         paper_bgcolor="rgba(26,27,38,0)",
 
-        plot_bgcolor="#24283b",
+        plot_bgcolor="#30243B",
 
-        font=dict(family="Inter, sans-serif", color="#a9b1d6", size=11),
+        font=dict(family="Inter, sans-serif", color="#D8C0D0", size=11),
 
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
 
@@ -386,9 +406,9 @@ def style_chart(fig, height=300):
 
     )
 
-    fig.update_xaxes(showgrid=False, linecolor="#414868")
+    fig.update_xaxes(showgrid=False, linecolor="#65485D")
 
-    fig.update_yaxes(gridcolor="#343a52", zeroline=False)
+    fig.update_yaxes(gridcolor="#493747", zeroline=False)
 
     return fig
 
@@ -474,6 +494,41 @@ def build_test_predictions(data, feature_scaler, target_scaler, model, limit=120
 
     return dates.iloc[-len(actual):].reset_index(drop=True), actual, pred
 
+
+def forecast_future_horizon(data, feature_scaler, target_scaler, model, horizon_minutes):
+    """Recursive one-step forecasting; hold non-target inputs at latest observed values."""
+    recent = data.dropna(subset=FEATURE_COLUMNS).tail(WINDOW_SIZE).copy()
+    if len(recent) < WINDOW_SIZE:
+        raise ValueError(f"At least {WINDOW_SIZE} complete observations are required.")
+    gaps = recent["date"].diff().dropna().dt.total_seconds().div(60)
+    interval_minutes = float(gaps[gaps > 0].median()) if not gaps.empty and (gaps > 0).any() else 2.0
+    if not np.isfinite(interval_minutes) or interval_minutes <= 0:
+        interval_minutes = 2.0
+    steps = max(1, int(round(float(horizon_minutes) / interval_minutes)))
+    effective_minutes = steps * interval_minutes
+    current_features = recent[FEATURE_COLUMNS].astype(float).to_numpy()
+    sequence = feature_scaler.transform(current_features)
+    last_date = recent["date"].iloc[-1]
+    forecast_rows = []
+    target_indices = {name: FEATURE_COLUMNS.index(name) for name in TARGET_COLUMNS}
+    for step in range(1, steps + 1):
+        predicted_scaled = np.asarray(model.predict(sequence[np.newaxis, :, :], verbose=0))
+        predicted = target_scaler.inverse_transform(predicted_scaled.reshape(1, -1))[0]
+        next_raw = current_features[-1].copy()
+        for j, target_name in enumerate(TARGET_COLUMNS):
+            next_raw[target_indices[target_name]] = predicted[j]
+        forecast_rows.append({
+            "date": last_date + pd.Timedelta(minutes=interval_minutes * step),
+            **{name: float(predicted[j]) for j, name in enumerate(TARGET_COLUMNS)},
+        })
+        next_scaled = feature_scaler.transform(next_raw.reshape(1, -1))
+        sequence = np.vstack([sequence[1:], next_scaled])
+        current_features = np.vstack([current_features[1:], next_raw])
+    result = pd.DataFrame(forecast_rows)
+    result.attrs["effective_horizon_minutes"] = float(effective_minutes)
+    result.attrs["sampling_interval_minutes"] = float(interval_minutes)
+    return result
+
 def make_line_chart(data, parameter, title, limit=1500, threshold_lines=False):
 
     view = data.tail(limit)
@@ -484,7 +539,7 @@ def make_line_chart(data, parameter, title, limit=1500, threshold_lines=False):
 
         x=view["date"], y=view[parameter], mode="lines",
 
-        name="Observed", line=dict(color="#7dcfff", width=1.8),
+        name="Observed", line=dict(color="#F6A6C1", width=1.8),
 
     ))
 
@@ -500,11 +555,11 @@ def make_line_chart(data, parameter, title, limit=1500, threshold_lines=False):
 
         lower, upper = q1 - 1.5 * iqr, q3 + 1.5 * iqr
 
-        fig.add_hline(y=upper, line_dash="dash", line_color="#f7768e",
+        fig.add_hline(y=upper, line_dash="dash", line_color="#F28C7B",
 
                       annotation_text="Statistical upper boundary")
 
-        fig.add_hline(y=lower, line_dash="dash", line_color="#7dcfff",
+        fig.add_hline(y=lower, line_dash="dash", line_color="#F6A6C1",
 
                       annotation_text="Statistical lower boundary")
 
@@ -732,7 +787,7 @@ if page == "Executive Overview":
 
         fig = go.Figure(go.Histogram(x=model_df[dist_param], nbinsx=40,
 
-                                     marker_color="#7aa2f7", opacity=0.88))
+                                     marker_color="#FFB86B", opacity=0.88))
 
         fig.update_layout(title=dist_param, xaxis_title="Observed value", yaxis_title="Frequency")
 
@@ -872,7 +927,7 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                                      name="Actual", mode="lines",
 
-                                     line=dict(color="#7dcfff", width=2)))
+                                     line=dict(color="#F6A6C1", width=2)))
 
             if model_choice in ["Compare LSTM and TCN", "LSTM only"]:
 
@@ -880,7 +935,7 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                                          name="LSTM prediction", mode="lines",
 
-                                         line=dict(color="#7aa2f7", width=1.7, dash="dash")))
+                                         line=dict(color="#FFB86B", width=1.7, dash="dash")))
 
             if model_choice in ["Compare LSTM and TCN", "TCN only"]:
 
@@ -888,7 +943,7 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                                          name="TCN prediction", mode="lines",
 
-                                         line=dict(color="#7aa2f7", width=1.7, dash="dot")))
+                                         line=dict(color="#FFB86B", width=1.7, dash="dot")))
 
             fig.update_layout(title=f"Actual vs predicted {target_choice}",
 
@@ -910,7 +965,69 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                 metric_card("TCN MAE", f"{mean_absolute_error(actual_tcn[:, target_idx], pred_tcn[:, target_idx]):.4f}", "Lower is better")
 
-            st.caption("The models forecast the next observation after a 60-observation input window (approximately 120 minutes of historical context). The chart shows test-set predictions, not future values beyond the dataset.")
+            st.caption("The comparison above evaluates one-step predictions on a held-out historical test segment.")
+
+            st.markdown("---")
+            st.markdown("#### Future forecast horizon")
+            st.caption("Choose how far ahead to project from the latest available reading.")
+            horizon_minutes = st.select_slider(
+                "Forecast ahead", options=[30, 45, 60], value=30,
+                format_func=lambda value: f"{value} minutes", key="forecast_horizon_minutes",
+            )
+            future_model_choice = st.radio(
+                "Future forecast model", ["Compare LSTM and TCN", "LSTM", "TCN"],
+                horizontal=True, key="future_forecast_model_choice",
+            )
+            try:
+                forecast_map = {}
+                models_to_run = []
+                if future_model_choice in ["Compare LSTM and TCN", "LSTM"]:
+                    models_to_run.append(("LSTM", lstm_model))
+                if future_model_choice in ["Compare LSTM and TCN", "TCN"]:
+                    models_to_run.append(("TCN", tcn_model))
+                for forecast_name, forecast_model in models_to_run:
+                    forecast_map[forecast_name] = forecast_future_horizon(
+                        model_df, feature_scaler, target_scaler, forecast_model, horizon_minutes
+                    )
+                effective_minutes = next(iter(forecast_map.values())).attrs["effective_horizon_minutes"]
+                history_view = model_df.dropna(subset=FEATURE_COLUMNS).tail(60)
+                fig_future = go.Figure()
+                fig_future.add_trace(go.Scatter(
+                    x=history_view["date"], y=history_view[target_choice], name="Recent observed",
+                    mode="lines", line=dict(color="#FFF0E8", width=2),
+                ))
+                for forecast_name, forecast_data in forecast_map.items():
+                    fig_future.add_trace(go.Scatter(
+                        x=forecast_data["date"], y=forecast_data[target_choice],
+                        name=f"{forecast_name} forecast", mode="lines+markers",
+                        line=dict(color="#F6A6C1" if forecast_name == "LSTM" else "#C5A3E8", width=2, dash="dash"),
+                        marker=dict(size=4),
+                    ))
+                fig_future.update_layout(
+                    title=f"{target_choice} forecast — approximately {effective_minutes:g} minutes ahead",
+                    xaxis_title="Timestamp", yaxis_title=target_choice,
+                )
+                st.plotly_chart(style_chart(fig_future, 400), use_container_width=True)
+                summary = []
+                for forecast_name, forecast_data in forecast_map.items():
+                    final_row = forecast_data.iloc[-1]
+                    summary.append({
+                        "Model": forecast_name,
+                        "Target": target_choice,
+                        "Forecast timestamp (UTC)": final_row["date"].strftime("%d %b %Y %H:%M"),
+                        "Predicted value": round(float(final_row[target_choice]), 4),
+                        "Requested horizon (min)": horizon_minutes,
+                        "Effective horizon (min)": round(effective_minutes, 1),
+                    })
+                st.dataframe(pd.DataFrame(summary), hide_index=True, use_container_width=True)
+                st.info(
+                    "Forecast assumption: predicted O₂/NH₄/PO₄ values are fed back recursively into the next step. "
+                    "Future temperature and flow-related inputs are held at their latest observed values because future "
+                    "inputs are not available. Treat this as an exploratory projection, not a guaranteed plant outcome."
+                )
+            except Exception as forecast_exc:
+                st.error("Future forecasting could not be generated with the current model and scaler assets.")
+                st.code(str(forecast_exc))
 
         except Exception as exc:
 
@@ -966,9 +1083,9 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
             mae_model_series = [
 
-                ("LSTM", actual_lstm, pred_lstm, "#84B4C8"),  # muted blue
+                ("LSTM", actual_lstm, pred_lstm, "#FFB86B"),  # muted blue
 
-                ("TCN", actual_tcn, pred_tcn, "#619196"),    # teal
+                ("TCN", actual_tcn, pred_tcn, "#C5A3E8"),    # teal
 
             ]
 
@@ -996,7 +1113,7 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                             color=bar_color,
 
-                            line=dict(color="#414868", width=1),
+                            line=dict(color="#65485D", width=1),
 
                         ),
 
@@ -1020,7 +1137,7 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                     text="MAE Comparison by Target (Lower Is Better)",
 
-                    font=dict(color="#e0e7ff", size=16),
+                    font=dict(color="#FFF5EF", size=16),
 
                     x=0,
 
@@ -1034,11 +1151,11 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                 bargap=0.28,
 
-                paper_bgcolor="#24283b",
+                paper_bgcolor="#30243B",
 
-                plot_bgcolor="#1a1b26",
+                plot_bgcolor="#211A2C",
 
-                font=dict(family="Inter, sans-serif", color="#c0caf5", size=12),
+                font=dict(family="Inter, sans-serif", color="#FFF0E8", size=12),
 
                 legend=dict(
 
@@ -1062,7 +1179,7 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                     showgrid=False,
 
-                    linecolor="#414868",
+                    linecolor="#65485D",
 
                     zeroline=False,
 
@@ -1074,7 +1191,7 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                     showgrid=True,
 
-                    gridcolor="#343a52",
+                    gridcolor="#493747",
 
                     zeroline=False,
 
@@ -1287,7 +1404,7 @@ elif page == "Anomaly Detection":
 
                 mode="lines",
 
-                line=dict(color="#7dcfff", width=1.3),
+                line=dict(color="#F6A6C1", width=1.3),
 
             )
 
@@ -1307,7 +1424,7 @@ elif page == "Anomaly Detection":
 
                 mode="markers",
 
-                marker=dict(color="#f7768e", size=7, symbol="x"),
+                marker=dict(color="#F28C7B", size=7, symbol="x"),
 
             )
 
@@ -1347,7 +1464,7 @@ elif page == "Anomaly Detection":
 
                 nbinsx=40,
 
-                marker_color="#bb9af7",
+                marker_color="#C5A3E8",
 
                 opacity=0.85,
 
@@ -1378,14 +1495,73 @@ elif page == "Anomaly Detection":
         flagged = data.loc[data["Anomaly flag"], display_cols].copy()
 
         st.dataframe(
-
             flagged.tail(100).sort_values("date", ascending=False),
-
             hide_index=True,
-
             use_container_width=True,
-
         )
+
+        st.markdown("#### Anomaly notifications & recommended actions")
+        st.caption(
+            "These are investigation prompts based on unusual patterns, not confirmed faults or regulatory violations. "
+            "Verify readings and follow your plant's approved procedures."
+        )
+        notification_rows = data.loc[data["Anomaly flag"]].sort_values("date", ascending=False)
+        if notification_rows.empty:
+            st.success("No Isolation Forest anomalies were detected in the selected observation window.")
+        else:
+            st.caption(f"Showing all {len(notification_rows)} detected anomalies in the selected observation window.")
+            for _, anomaly_row in notification_rows.iterrows():
+                readings = []
+                for col, label, fmt in [
+                    ("T1_O2", "O₂", ".3f"), ("T1_NH4", "NH₄", ".3f"),
+                    ("T1_PO4", "PO₄", ".3f"), ("TEMPERATURE", "Temperature", ".2f")
+                ]:
+                    if col in anomaly_row.index and pd.notna(anomaly_row[col]):
+                        readings.append(f"{label}: {format(float(anomaly_row[col]), fmt)}")
+                reasons, actions = [], []
+                # Illustrative screening values only; these are not regulatory limits.
+                if pd.notna(anomaly_row.get("T1_O2")) and float(anomaly_row["T1_O2"]) < 0.5:
+                    reasons.append("O₂ is below the dashboard's illustrative screening value.")
+                    actions.extend([
+                        "Verify the dissolved-oxygen sensor and calibration using the approved procedure.",
+                        "Inspect aeration equipment and airflow indicators; compare nearby readings before process changes.",
+                    ])
+                if pd.notna(anomaly_row.get("T1_NH4")) and float(anomaly_row["T1_NH4"]) > 5.0:
+                    reasons.append("NH₄ is above the dashboard's illustrative screening value.")
+                    actions.extend([
+                        "Confirm the NH₄ reading with the approved sensor-check or sampling procedure.",
+                        "Review aeration/nitrification conditions and recent influent loading with the responsible operator.",
+                    ])
+                if "T1_PO4" in data and pd.notna(anomaly_row.get("T1_PO4")) and anomaly_row["T1_PO4"] > data["T1_PO4"].quantile(0.95):
+                    reasons.append("PO₄ is above the 95th percentile of the inspected data window.")
+                    actions.extend([
+                        "Check PO₄ sensor status or confirm with a sample if required by site SOP.",
+                        "Review chemical dosing and phosphorus-removal process records with the operator.",
+                    ])
+                if "TEMPERATURE" in data and pd.notna(anomaly_row.get("TEMPERATURE")) and anomaly_row["TEMPERATURE"] > data["TEMPERATURE"].quantile(0.95):
+                    reasons.append("Temperature is above the 95th percentile of the inspected data window.")
+                    actions.extend([
+                        "Verify the temperature sensor and compare with upstream/influent readings.",
+                        "Check recent process changes or unusual hot-water inflow according to site procedures.",
+                    ])
+                if not reasons:
+                    reasons.append("The combined feature pattern differs from patterns learned by Isolation Forest; the model cannot identify a cause by itself.")
+                if not actions:
+                    actions = [
+                        "Compare this timestamp with nearby readings and recent process logs.",
+                        "Verify sensor quality and confirm the observation before operational action.",
+                        "Escalate to the responsible operator if the pattern persists.",
+                    ]
+                stamp = anomaly_row["date"].strftime("%d %b %Y, %H:%M UTC")
+                with st.expander(f"🔔 Anomaly • {stamp} • score {float(anomaly_row['anomaly_score']):.4f}"):
+                    st.markdown("**Observed readings**")
+                    st.write(" · ".join(readings) if readings else "No display readings available.")
+                    st.markdown("**Why it was flagged / checks to investigate**")
+                    for reason in dict.fromkeys(reasons):
+                        st.markdown(f"- {reason}")
+                    st.markdown("**Recommended operational checks**")
+                    for action in dict.fromkeys(actions):
+                        st.markdown(f"- {action}")
 
     else:
 
@@ -1445,7 +1621,7 @@ elif page == "Anomaly Detection":
 
                 mode="lines",
 
-                line=dict(color="#7aa2f7", width=1.3),
+                line=dict(color="#FFB86B", width=1.3),
 
             )
 
@@ -1465,15 +1641,15 @@ elif page == "Anomaly Detection":
 
                 mode="markers",
 
-                marker=dict(color="#f7768e", size=6),
+                marker=dict(color="#F28C7B", size=6),
 
             )
 
         )
 
-        fig.add_hline(y=upper, line_dash="dash", line_color="#f7768e")
+        fig.add_hline(y=upper, line_dash="dash", line_color="#F28C7B")
 
-        fig.add_hline(y=lower, line_dash="dash", line_color="#7dcfff")
+        fig.add_hline(y=lower, line_dash="dash", line_color="#F6A6C1")
 
         fig.update_layout(
 
