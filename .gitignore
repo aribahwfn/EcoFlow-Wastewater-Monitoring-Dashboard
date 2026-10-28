@@ -1,0 +1,29 @@
+
+# Python environments
+venv/
+venv2/
+.venv/
+env/
+fyp_tf/
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# IDE and notebook temporary files
+.ipynb_checkpoints/
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

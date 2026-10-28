@@ -51,6 +51,7 @@ TCN_FILE = BASE_DIR / "tcn_wastewater_model.keras"
 ISO_MODEL_FILE = BASE_DIR / "isolation_forest_model.pkl"
 
 ISO_SCALER_FILE = BASE_DIR / "iso_scaler.pkl"
+ISO_CLIP_FILE = BASE_DIR / "iso_clip_bounds.pkl"
 
 TARGET_COLUMNS = ["T1_O2", "T1_NH4", "T1_PO4"]  # Outputs supported by the saved forecasting models
 
@@ -75,315 +76,223 @@ WINDOW_SIZE = 60
 # ============================================================
 
 st.markdown(
-
     textwrap.dedent("""
-
     <style>
-
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght\@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     :root {
-
-        --rose: #DFC7C1;
-
-        --blush: #F4DCD6;
-
-        --sky: #B2D9EA;
-
-        --blue: #84B4C8;
-
-        --teal: #619196;
-
-        --ink: #263b45;
-
-        --muted: #637780;
-
-        --canvas: #f5f7f7;
-
+        --neon-bg: #1a1b26;
+        --neon-panel: #24283b;
+        --neon-panel-alt: #292e42;
+        --neon-border: #414868;
+        --neon-cyan: #7dcfff;
+        --neon-blue: #7aa2f7;
+        --neon-purple: #bb9af7;
+        --neon-pink: #f7768e;
+        --neon-green: #9ece6a;
+        --neon-text: #c0caf5;
+        --neon-muted: #a9b1d6;
     }
 
     html, body, [class*="css"] {
-
         font-family: 'Inter', sans-serif;
-
     }
 
-    .stApp {
-
-        background: var(--canvas);
-
-        color: var(--ink);
-
-    }
-
+    .stApp,
+    [data-testid="stAppViewContainer"],
     [data-testid="stAppViewContainer"] > .main {
+        background: var(--neon-bg);
+        color: var(--neon-text);
+    }
 
-        background: var(--canvas);
-
+    [data-testid="stHeader"] {
+        background: rgba(26, 27, 38, 0.92);
     }
 
     [data-testid="stSidebar"] {
-
-        background: #fffaf8;
-
-        border-right: 1px solid var(--rose);
-
+        background: #16161e;
+        border-right: 1px solid var(--neon-border);
     }
 
     [data-testid="stSidebar"] * {
-
-        color: var(--ink);
-
+        color: var(--neon-text);
     }
 
-    /* Use the available viewport width rather than a fixed max-width. */
-
     .block-container {
-
         width: 100%;
-
         max-width: 100%;
-
         padding: 1.25rem clamp(1rem, 2vw, 2rem) 2rem;
-
     }
 
     .top-header {
-
         width: 100%;
-
         box-sizing: border-box;
-
-        background: linear-gradient(115deg, #ffffff 0%, #fffaf8 100%);
-
-        border: 1px solid var(--rose);
-
+        background: linear-gradient(115deg, #24283b 0%, #302747 100%);
+        border: 1px solid var(--neon-border);
+        border-left: 4px solid var(--neon-cyan);
         border-radius: 16px;
-
         padding: 22px 26px;
-
         margin: 0 0 18px 0;
-
         overflow-wrap: anywhere;
-
+        box-shadow: 0 0 22px rgba(125, 207, 255, 0.08);
     }
 
     .eyebrow {
-
-        color: var(--teal);
-
+        color: var(--neon-cyan);
         font-size: .76rem;
-
         font-weight: 700;
-
         letter-spacing: .09em;
-
         text-transform: uppercase;
-
     }
 
     .main-title {
-
         font-size: clamp(1.35rem, 2.2vw, 2rem);
-
         line-height: 1.3;
-
         font-weight: 700;
-
-        color: var(--ink);
-
+        color: #e0e7ff;
         margin: 4px 0 0 0;
-
     }
 
     .sub-title {
-
-        color: var(--muted);
-
+        color: var(--neon-muted);
         font-size: .94rem;
-
         margin-top: 7px;
-
     }
 
     .metric-card {
-
         width: 100%;
-
         height: 100%;
-
         min-height: 132px;
-
         box-sizing: border-box;
-
-        background: #ffffff;
-
-        border: 1px solid var(--rose);
-
-        border-top: 4px solid var(--blue);
-
+        background: var(--neon-panel);
+        border: 1px solid var(--neon-border);
+        border-top: 4px solid var(--neon-cyan);
         border-radius: 14px;
-
         padding: 18px;
-
-        box-shadow: 0 3px 12px rgba(45, 74, 80, .06);
-
+        box-shadow: 0 4px 18px rgba(0, 0, 0, .18);
         overflow-wrap: anywhere;
-
     }
 
     .metric-label {
-
-        color: var(--muted);
-
+        color: var(--neon-muted);
         font-size: .76rem;
-
         font-weight: 700;
-
         letter-spacing: .035em;
-
         margin-bottom: 10px;
-
     }
 
     .metric-value {
-
-        color: var(--teal);
-
+        color: var(--neon-cyan);
         font-size: clamp(1.3rem, 1.8vw, 1.8rem);
-
         line-height: 1.2;
-
         font-weight: 700;
-
     }
 
     .metric-note {
-
-        color: var(--muted);
-
+        color: var(--neon-muted);
         font-size: .76rem;
-
         line-height: 1.45;
-
         margin-top: 9px;
-
     }
 
     .section-card {
-
         width: 100%;
-
         box-sizing: border-box;
-
-        background: #ffffff;
-
-        border: 1px solid var(--rose);
-
+        background: var(--neon-panel);
+        border: 1px solid var(--neon-border);
         border-radius: 14px;
-
         padding: 16px;
-
         margin-bottom: 14px;
-
         overflow: hidden;
-
     }
 
     .section-heading {
-
-        color: var(--ink);
-
+        color: #e0e7ff;
         font-size: 1rem;
-
         font-weight: 700;
-
         margin-bottom: 3px;
-
     }
 
     .section-caption {
-
-        color: var(--muted);
-
+        color: var(--neon-muted);
         font-size: .78rem;
-
         margin-bottom: 10px;
-
     }
 
     div[data-testid="stMetric"] {
-
-        background: #ffffff;
-
-        border: 1px solid var(--rose);
-
-        border-top: 3px solid var(--sky);
-
+        background: var(--neon-panel);
+        border: 1px solid var(--neon-border);
+        border-top: 3px solid var(--neon-purple);
         padding: 14px 16px;
-
         border-radius: 12px;
+    }
 
+    div[data-testid="stMetric"] label,
+    div[data-testid="stMetric"] [data-testid="stMetricValue"],
+    div[data-testid="stMetric"] [data-testid="stMetricDelta"] {
+        color: var(--neon-text);
     }
 
     div[data-testid="stAlert"] {
-
         border-radius: 10px;
-
     }
 
-    div[data-baseweb="select"] > div {
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="input"] > div,
+    div[data-baseweb="textarea"] > div {
+        background: var(--neon-panel-alt);
+        border-color: var(--neon-border);
+        color: var(--neon-text);
+    }
 
-        border-color: var(--rose);
-
+    input, textarea {
+        color: var(--neon-text) !important;
     }
 
     .stButton button, .stDownloadButton button {
-
         border-radius: 9px;
+        border: 1px solid var(--neon-blue);
+        background: #292e42;
+        color: #e0e7ff;
+        transition: all .2s ease;
+    }
 
-        border-color: var(--blue);
+    .stButton button:hover, .stDownloadButton button:hover {
+        border-color: var(--neon-cyan);
+        color: var(--neon-cyan);
+        box-shadow: 0 0 12px rgba(125, 207, 255, .18);
+    }
 
+    [data-testid="stDataFrame"], [data-testid="stTable"] {
+        border: 1px solid var(--neon-border);
+        border-radius: 10px;
+        overflow: hidden;
     }
 
     hr {
+        border-color: var(--neon-border);
+    }
 
-        border-color: var(--rose);
-
+    p, label, li, .stMarkdown, [data-testid="stCaptionContainer"] {
+        color: var(--neon-text);
     }
 
     @media (max-width: 768px) {
-
         .block-container {
-
             padding-left: .8rem;
-
             padding-right: .8rem;
-
         }
-
         .top-header {
-
             padding: 17px;
-
         }
-
         .metric-card {
-
             min-height: 115px;
-
             padding: 14px;
-
         }
-
     }
-
     </style>
-
     """),
-
     unsafe_allow_html=True,
-
 )
 
 # ============================================================
@@ -433,14 +342,11 @@ def load_models_and_scalers(feature_path, target_path, lstm_path, tcn_path):
     return feature_scaler, target_scaler, lstm_model, tcn_model
 
 @st.cache_resource(show_spinner="Loading Isolation Forest Anomaly Detection Model...")
-
-def load_isolation_forest_assets(iso_model_path, iso_scaler_path):
-
+def load_isolation_forest_assets(iso_model_path, iso_scaler_path, iso_clip_path):
     iso_model = joblib.load(iso_model_path)
-
     iso_scaler = joblib.load(iso_scaler_path)
-
-    return iso_model, iso_scaler
+    iso_clip_bounds = joblib.load(iso_clip_path)
+    return iso_model, iso_scaler, iso_clip_bounds
 
 def metric_card(label, value, note=""):
 
@@ -468,11 +374,11 @@ def style_chart(fig, height=300):
 
         margin=dict(l=12, r=12, t=42, b=12),
 
-        paper_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(26,27,38,0)",
 
-        plot_bgcolor="#ffffff",
+        plot_bgcolor="#24283b",
 
-        font=dict(family="Inter, sans-serif", color="#637780", size=11),
+        font=dict(family="Inter, sans-serif", color="#a9b1d6", size=11),
 
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
 
@@ -480,9 +386,9 @@ def style_chart(fig, height=300):
 
     )
 
-    fig.update_xaxes(showgrid=False, linecolor="#e9e9e9")
+    fig.update_xaxes(showgrid=False, linecolor="#414868")
 
-    fig.update_yaxes(gridcolor="#edf0f3", zeroline=False)
+    fig.update_yaxes(gridcolor="#343a52", zeroline=False)
 
     return fig
 
@@ -578,7 +484,7 @@ def make_line_chart(data, parameter, title, limit=1500, threshold_lines=False):
 
         x=view["date"], y=view[parameter], mode="lines",
 
-        name="Observed", line=dict(color="#619196", width=1.8),
+        name="Observed", line=dict(color="#7dcfff", width=1.8),
 
     ))
 
@@ -594,11 +500,11 @@ def make_line_chart(data, parameter, title, limit=1500, threshold_lines=False):
 
         lower, upper = q1 - 1.5 * iqr, q3 + 1.5 * iqr
 
-        fig.add_hline(y=upper, line_dash="dash", line_color="#B86F68",
+        fig.add_hline(y=upper, line_dash="dash", line_color="#f7768e",
 
                       annotation_text="Statistical upper boundary")
 
-        fig.add_hline(y=lower, line_dash="dash", line_color="#619196",
+        fig.add_hline(y=lower, line_dash="dash", line_color="#7dcfff",
 
                       annotation_text="Statistical lower boundary")
 
@@ -826,7 +732,7 @@ if page == "Executive Overview":
 
         fig = go.Figure(go.Histogram(x=model_df[dist_param], nbinsx=40,
 
-                                     marker_color="#84B4C8", opacity=0.88))
+                                     marker_color="#7aa2f7", opacity=0.88))
 
         fig.update_layout(title=dist_param, xaxis_title="Observed value", yaxis_title="Frequency")
 
@@ -966,7 +872,7 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                                      name="Actual", mode="lines",
 
-                                     line=dict(color="#619196", width=2)))
+                                     line=dict(color="#7dcfff", width=2)))
 
             if model_choice in ["Compare LSTM and TCN", "LSTM only"]:
 
@@ -974,7 +880,7 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                                          name="LSTM prediction", mode="lines",
 
-                                         line=dict(color="#84B4C8", width=1.7, dash="dash")))
+                                         line=dict(color="#7aa2f7", width=1.7, dash="dash")))
 
             if model_choice in ["Compare LSTM and TCN", "TCN only"]:
 
@@ -982,7 +888,7 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
 
                                          name="TCN prediction", mode="lines",
 
-                                         line=dict(color="#84B4C8", width=1.7, dash="dot")))
+                                         line=dict(color="#7aa2f7", width=1.7, dash="dot")))
 
             fig.update_layout(title=f"Actual vs predicted {target_choice}",
 
@@ -1055,77 +961,141 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
             st.dataframe(metrics.round(4), hide_index=True, use_container_width=True)
 
             # MAE comparison chart using the EcoFlow pastel colour palette.
+
             fig = go.Figure()
 
             mae_model_series = [
+
                 ("LSTM", actual_lstm, pred_lstm, "#84B4C8"),  # muted blue
+
                 ("TCN", actual_tcn, pred_tcn, "#619196"),    # teal
+
             ]
 
             for model_name, actual, predicted, bar_color in mae_model_series:
+
                 mae_values = [
+
                     mean_absolute_error(actual[:, i], predicted[:, i])
+
                     for i in range(len(TARGET_COLUMNS))
+
                 ]
+
                 fig.add_trace(
+
                     go.Bar(
+
                         name=model_name,
+
                         x=TARGET_COLUMNS,
+
                         y=mae_values,
+
                         marker=dict(
+
                             color=bar_color,
-                            line=dict(color="#DFC7C1", width=1),
+
+                            line=dict(color="#414868", width=1),
+
                         ),
+
                         hovertemplate=(
+
                             "<b>%{fullData.name}</b><br>"
+
                             "Target: %{x}<br>"
+
                             "MAE: %{y:.4f}<extra></extra>"
+
                         ),
+
                     )
+
                 )
 
             fig.update_layout(
+
                 title=dict(
+
                     text="MAE Comparison by Target (Lower Is Better)",
-                    font=dict(color="#263B45", size=16),
+
+                    font=dict(color="#e0e7ff", size=16),
+
                     x=0,
+
                     xanchor="left",
+
                 ),
+
                 template="plotly_white",
+
                 barmode="group",
+
                 bargap=0.28,
-                paper_bgcolor="#F4DCD6",
-                plot_bgcolor="#FFFFFF",
-                font=dict(family="Inter, sans-serif", color="#263B45", size=12),
+
+                paper_bgcolor="#24283b",
+
+                plot_bgcolor="#1a1b26",
+
+                font=dict(family="Inter, sans-serif", color="#c0caf5", size=12),
+
                 legend=dict(
+
                     orientation="h",
+
                     yanchor="bottom",
+
                     y=1.02,
+
                     xanchor="left",
+
                     x=0,
+
                     bgcolor="rgba(255,255,255,0)",
+
                 ),
+
                 xaxis=dict(
+
                     title="Target Parameter",
+
                     showgrid=False,
-                    linecolor="#DFC7C1",
+
+                    linecolor="#414868",
+
                     zeroline=False,
+
                 ),
+
                 yaxis=dict(
+
                     title="Mean Absolute Error (MAE)",
+
                     showgrid=True,
-                    gridcolor="#E7EEEE",
+
+                    gridcolor="#343a52",
+
                     zeroline=False,
+
                     rangemode="tozero",
+
                 ),
+
                 margin=dict(l=45, r=20, t=70, b=45),
+
                 height=360,
+
             )
 
             st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+
             st.caption(
+
                 "Metrics use up to the latest 5,000 test observations to keep the dashboard responsive; "
+
                 "these may differ from full-test metrics reported in your notebooks."
+
             )
 
         except Exception as exc:
@@ -1148,7 +1118,7 @@ elif page == "Anomaly Detection":
 
     # Load Isolation Forest Model and Scaler
 
-    iso_missing = [p.name for p in [ISO_MODEL_FILE, ISO_SCALER_FILE] if not p.exists()]
+    iso_missing = [p.name for p in [ISO_MODEL_FILE, ISO_SCALER_FILE, ISO_CLIP_FILE] if not p.exists()]
 
     if iso_missing:
 
@@ -1160,7 +1130,9 @@ elif page == "Anomaly Detection":
 
         try:
 
-            iso_forest, iso_scaler = load_isolation_forest_assets(str(ISO_MODEL_FILE), str(ISO_SCALER_FILE))
+            iso_forest, iso_scaler, iso_clip_bounds = load_isolation_forest_assets(
+                str(ISO_MODEL_FILE), str(ISO_SCALER_FILE), str(ISO_CLIP_FILE)
+            )
 
             iso_model_loaded = True
 
@@ -1202,13 +1174,26 @@ elif page == "Anomaly Detection":
 
     if detection_mode == "Isolation Forest ML Model" and iso_model_loaded:
 
-        # Use the same non-date columns expected by the saved Isolation Forest scaler.
-
-        feature_cols = [column for column in df.columns if column != "date"]
+        # Match the exact feature order and clipping used during Isolation Forest training.
+        feature_cols = FEATURE_COLUMNS.copy()
 
         try:
+            missing_iso_features = [column for column in feature_cols if column not in data.columns]
+            if missing_iso_features:
+                raise ValueError(
+                    "Dataset is missing Isolation Forest features: "
+                    + ", ".join(missing_iso_features)
+                )
 
-            X_scaled = iso_scaler.transform(data[feature_cols])
+            X_iso = data[feature_cols].copy()
+            for column in feature_cols:
+                bounds = iso_clip_bounds[column]
+                X_iso[column] = X_iso[column].clip(
+                    lower=bounds["lower"],
+                    upper=bounds["upper"],
+                )
+
+            X_scaled = iso_scaler.transform(X_iso)
 
             try:
 
@@ -1302,7 +1287,7 @@ elif page == "Anomaly Detection":
 
                 mode="lines",
 
-                line=dict(color="#619196", width=1.3),
+                line=dict(color="#7dcfff", width=1.3),
 
             )
 
@@ -1322,7 +1307,7 @@ elif page == "Anomaly Detection":
 
                 mode="markers",
 
-                marker=dict(color="#B86F68", size=7, symbol="x"),
+                marker=dict(color="#f7768e", size=7, symbol="x"),
 
             )
 
@@ -1362,7 +1347,7 @@ elif page == "Anomaly Detection":
 
                 nbinsx=40,
 
-                marker_color="#3b82f6",
+                marker_color="#bb9af7",
 
                 opacity=0.85,
 
@@ -1460,7 +1445,7 @@ elif page == "Anomaly Detection":
 
                 mode="lines",
 
-                line=dict(color="#84B4C8", width=1.3),
+                line=dict(color="#7aa2f7", width=1.3),
 
             )
 
@@ -1480,15 +1465,15 @@ elif page == "Anomaly Detection":
 
                 mode="markers",
 
-                marker=dict(color="#B86F68", size=6),
+                marker=dict(color="#f7768e", size=6),
 
             )
 
         )
 
-        fig.add_hline(y=upper, line_dash="dash", line_color="#B86F68")
+        fig.add_hline(y=upper, line_dash="dash", line_color="#f7768e")
 
-        fig.add_hline(y=lower, line_dash="dash", line_color="#619196")
+        fig.add_hline(y=lower, line_dash="dash", line_color="#7dcfff")
 
         fig.update_layout(
 
