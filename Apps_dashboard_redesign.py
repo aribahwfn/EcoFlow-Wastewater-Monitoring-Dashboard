@@ -970,9 +970,12 @@ elif page in ["LSTM vs TCN Forecasting", "Model Evaluation"]:
             st.markdown("---")
             st.markdown("#### Future forecast horizon")
             st.caption("Choose how far ahead to project from the latest available reading.")
-            horizon_minutes = st.select_slider(
-                "Forecast ahead", options=[30, 45, 60], value=30,
-                format_func=lambda value: f"{value} minutes", key="forecast_horizon_minutes",
+            horizon_minutes = st.selectbox(
+                "Forecast ahead",
+                options=[10, 20, 30, 40],
+                index=2,  # Default selection: 30 minutes
+                format_func=lambda value: f"{value} minutes",
+                key="forecast_horizon_minutes",
             )
             future_model_choice = st.radio(
                 "Future forecast model", ["Compare LSTM and TCN", "LSTM", "TCN"],
